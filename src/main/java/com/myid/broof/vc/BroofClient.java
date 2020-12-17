@@ -13,6 +13,7 @@ import foundation.icon.did.protocol.jsonld.VpCriteria;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class BroofClient {
@@ -42,7 +43,6 @@ public class BroofClient {
     public JsonObject makeBroofPresentation() throws Exception {
         // 1. make VC
         JsonObject credentialObject = mBroofIssuer.makeBroofCredential(mClientKeyHolder.getDid());
-        System.out.println(credentialObject.toString());
         ProtocolMessage credentialPm = ProtocolMessage.valueOf(credentialObject);
 
         // 2. Get VPR
@@ -53,7 +53,7 @@ public class BroofClient {
         ClaimRequest reqPresentation = protocolMessageVpr.getClaimRequestJwt();
         JsonLdVpr jsonLdVpr = reqPresentation.getVpr();
 
-        System.out.println("VPR Condition ID: " + jsonLdVpr.getCondition().getConditionId());
+        //System.out.println("VPR Condition ID: " + jsonLdVpr.getCondition().getConditionId());
 
         List<VpCriteria> vpList = new ArrayList<>();
         VpCriteria criteria = new VpCriteria.Builder()
@@ -82,23 +82,15 @@ public class BroofClient {
                 .type(ProtocolType.RESPONSE_PROTECTED_PRESENTATION)
                 .presentation(presentation)
                 .requestPublicKey(reqPresentation.getPublicKey())     // receiveKey from verifier
+                .issued(new Date())
+                .expiration(new Date(System.currentTimeMillis() + (60*60*24L * 1000L)))
                 .build();
 
         ECDHKey ecdhKey = ECDHKey.generateKey(ECDHKey.CURVE_P256K);
-
         ProtocolMessage.SignResult prsntSignResult = prsntPm.signEncrypt(mClientKeyHolder, ecdhKey);
         JsonObject presentationObject = prsntSignResult.getResult();
 
-        /*
-        JsonObject presentationJson = new JsonObject();
-        JsonObject jwtElement = new JsonObject();
-        jwtElement.addProperty("type", "response_presentation");
-        jwtElement.addProperty("protected", presentationObject.get("protected").getAsString());
-        presentationJson.add("jwt", jwtElement);
-        */
-
         return presentationObject;
-
     }
 
     /**

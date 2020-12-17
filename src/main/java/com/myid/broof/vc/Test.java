@@ -9,9 +9,9 @@ public class Test {
             JsonObject presentationJsonObject = broofClient.makeBroofPresentation();
 
             String presentationJweMsg = presentationJsonObject.toString();
-            System.out.println("===================== Make Presentation =====================");
+            System.out.println("===================== [START] Presentation JWE Message =====================");
             System.out.println(presentationJweMsg);
-
+            System.out.println("===================== [END] Presentation JWE Message ========================\n\n\n");
             System.out.println("===================== Submit Presentation =====================");
             boolean submit = broofClient.submitPresentation(presentationJweMsg);
 

@@ -118,10 +118,9 @@ public class SaraminVerifier {
         }
 
         JsonObject reqPresentationObject = reqPresentationSignResult.getResult();
-        System.out.println("VPR : " + reqPresentationObject.toString());
+        //System.out.println("VPR : " + reqPresentationObject.toString());
 
         return reqPresentationObject;
-        //return reqPresentationObject.toString();
     }
 
 
@@ -131,7 +130,7 @@ public class SaraminVerifier {
         if (presentationPm.isProtected()) {
             presentationPm.decryptJwe(mServerECDHKey);
         }
-        System.out.println("decryptJWT :" + presentationPm.getJwtToken());
+        //System.out.println("decryptJWT :" + presentationPm.getJwtToken());
         Presentation presentation = presentationPm.getPresentationJwt();
 
         String holderDid = presentation.getDid();
