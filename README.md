@@ -4,7 +4,7 @@ This is a test code that creates and verifies Credential and Presentation using 
 
 It was produced by referring to the guide below.
 
-[https://resource-test.zzeung.id/sdkguide/](https://resource-test.zzeung.id/sdkguide/)
+[https://dev.zzeung.id](https://dev.zzeung.id/)
 
 ## How to Run
 
